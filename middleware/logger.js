@@ -1,10 +1,17 @@
 /**
  * Created by 喵鱼 on 2017/8/14.
  */
+// 日志中间件
 module.exports = function () {
-    return async function(ctx, next) {
-        console.log(ctx.headers)
+    return async function(
+        { request: { method, url } },
+        next
+    ) {
+        const currDate = new Date();
 
-        next();
+        // 输出到控制台
+        console.log(`--- ${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()} ${currDate.getHours()}:${currDate.getMinutes()}:${currDate.getSeconds()} --- 发来 ${method} 请求，地址 --- ${url} ---`);
+
+        await next();
     };
 };
