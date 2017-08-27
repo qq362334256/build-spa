@@ -1,21 +1,39 @@
 /**
  * Created by 喵鱼 on 2017/8/21.
  */
+const fs = require('fs');
+const path = require('path');
 const router = require('koa-router');
 const basicRouter = new router();
 
 
 // 配置核心路由
-basicRouter.get('/index', async (ctx) => {
-    ctx.body = 'index';
-});
+basicRouter.get('*', async (ctx) => {
 
-basicRouter.post('/index', async (ctx) => {
-    ctx.body = ctx.request.body;
-});
 
-basicRouter.get('/about', async (ctx) => {
-    ctx.body = 'about';
+
+
+
+    console.log(ctx.cookies.get('miaoyu_cookie'));
+
+
+
+    // 读取HTML静态文件
+    const html = await (new Promise(
+        (resolve, reject) => fs.readFile(
+            path.resolve(__dirname, './../../client/static/index.html'), (err, data) => {
+                if (err){
+                    reject(err);
+                } else {
+                    resolve(data);
+                };
+            }
+        )
+    ));
+
+    // 设置文件type / body
+    ctx.type = 'html';
+    ctx.body = html;
 });
 
 
