@@ -38,6 +38,9 @@ app.use(require('koa-bodyparser')({
     textLimit: serverRequsetLimit  // 请求文本的最大体积
 }));
 
+// cookie中间件
+app.use(require('./server/middleware/cookies.js')());
+
 // // session中间件
 // app.use(convert(require('koa-session-redis')({
 //     key: 'session_id',
@@ -53,6 +56,8 @@ app.use(require('koa-bodyparser')({
 //         port: redisPort, // redis的端口号
 //     }
 // })));
+
+
 
 
 // 装载路由 / 响应前中间件
