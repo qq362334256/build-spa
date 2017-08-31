@@ -56,7 +56,12 @@ app.use(require('./server/middleware/cookies.js')());
 //         port: redisPort, // redis的端口号
 //     }
 // })));
+const session = require("koa-session2");
+const Store = require("./server/middleware/redis.js");
 
+app.use(session({
+    store: new Store()
+}));
 
 
 
