@@ -71,12 +71,14 @@ basicRouter.get('*', async (ctx) => {
     //     console.log(data)
     // });
 
-    let user = ctx.session.user;
 
-    ctx.session.view = "index";
+    ctx.session = {
+        aa: '11',
+        bb: '22'
+    }
+
 
     console.log(111)
-
 
     // console.log(ctx.cookies.get('session_id'));
 
