@@ -1,7 +1,6 @@
 /**
  * 应用服务启动文件
  */
-
 const koa = require('koa');
 const app = new koa();
 const basicRouter = require('./server/routers/entry.config.js'); // 路由配置
@@ -10,7 +9,7 @@ const {
         host: serverHost,
         port: serverPort
     }
-} = require('./webConfig');
+} = require('./webConfig.js');
 
 
 // request前数据中间件
