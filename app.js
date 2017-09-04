@@ -1,72 +1,32 @@
 /**
- * Created by yanmin.yu on 2017/8/5.
+ * 应用服务启动文件
  */
-const path = require('path');
+
 const koa = require('koa');
 const app = new koa();
-const convert = require('koa-convert'); // 低版本中间件的过渡兼容插件
 const basicRouter = require('./server/routers/entry.config.js'); // 路由配置
 const {
     server: {
         host: serverHost,
-        port: serverPort,
-        fileCacheTime: serverFileCacheTime,
-        requestLimit: serverRequsetLimit
-    },
-    redis: {
-        host: redisHost,
-        port: redisPort,
-        ttl: redisTtl
+        port: serverPort
     }
-} = require('./webConfig.json');
+} = require('./webConfig');
 
 
-// 请求前中间件
-// 日志中间件
-app.use(require('koa-logger')());
-app.use(require('./server/middleware/logger.js')());
+// request前数据中间件
+app.use(...require('./server/middlewares/entryBefore.config.js'));
 
-// 静态资源中间件
-app.use(require('koa-static')(path.join(__dirname, './client/static'), {
-    maxage: serverFileCacheTime // 文件缓存时间
-}));
-
-// 请求体处理中间件
-app.use(require('koa-bodyparser')({
-    formLimit: serverRequsetLimit, // 请求表单的最大体积
-    jsonLimit: serverRequsetLimit, // 请求json的最大体积
-    textLimit: serverRequsetLimit  // 请求文本的最大体积
-}));
-
-// cookie中间件
-app.use(require('./server/middleware/cookies.js')());
-
-// // session中间件
-// app.use(convert(require('koa-session-redis')({
-//     key: 'session_id',
-//     cookie: {
-//         path: '/',
-//         httpOnly: true,
-//         maxAge: 24 * 60 * 60 * 1000, //one day in ms,
-//         rewrite: true,
-//         signed: true
-//     },
-//     store: {
-//         host: redisHost, // redis的地址
-//         port: redisPort, // redis的端口号
-//     }
-// })));
-const session = require("koa-session2");
-const Store = require("./server/middleware/redis.js");
-
-app.use(session({
-    store: new Store()
-}));
-
-
-
-// 装载路由 / 响应前中间件
+// 装载路由
 app.use(basicRouter.routes()).use(basicRouter.allowedMethods());
+
+
+
+// const session = require("koa-session2");
+// const Store = require("./server/middlewares/redis.js");
+//
+// app.use(session({
+//     store: new Store()
+// }));
 
 
 // 启动服务，并输出日期

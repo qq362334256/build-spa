@@ -1,5 +1,8 @@
 const Redis = require("ioredis");
 const { Store } = require("koa-session2");
+const { logErr } = require('./../public/utils/logger.js');
+
+
 
 class RedisStore extends Store {
     constructor() {
@@ -8,7 +11,6 @@ class RedisStore extends Store {
             port: 6379,
             host: '127.0.0.1',
             keyPrefix: 'MIAOYU:', // 储存redis的key前缀
-
         });
     }
 
@@ -22,7 +24,9 @@ class RedisStore extends Store {
 
         try {
             await this.redis.set(sid, JSON.stringify(session), 'EX', maxAge / 1000);
-        } catch (e) {}
+        } catch (e) {
+            logErr('设置redis-session失败！');
+        }
         return sid;
     }
 

@@ -1,7 +1,6 @@
 /**
- * Created by 喵鱼 on 2017/8/14.
+ * 日志中间件
  */
-// 日志中间件
 module.exports = () => async (
     { request: { method, url } },
     next
