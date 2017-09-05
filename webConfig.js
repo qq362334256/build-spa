@@ -2,6 +2,8 @@
  * 应用配置文件
  */
 module.exports = {
+    projectId: 'MIAOYU', // 项目ID
+
     // 应用服务配置
     server: {
         host: '127.0.0.1',                 // 访问地址
