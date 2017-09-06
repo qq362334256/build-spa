@@ -3,8 +3,8 @@
  */
 const path = require('path');
 const convert = require('koa-convert'); // 低版本中间件的过渡兼容插件
-const koa = require('koa');
-const app = new koa();
+const Koa = require('koa');
+const app = new Koa();
 const basicRouter = require('./server/routers/entry.config.js'); // 路由配置
 const {
     server: {
@@ -14,6 +14,10 @@ const {
         requestLimit: serverRequsetLimit
     }
 } = require('./webConfig.js');
+
+
+// 连接redis缓存服务
+const redis = require('./server/services/redis.js');
 
 
 // request接收前中间件
@@ -36,14 +40,17 @@ app.use(require('koa-static')(path.join(__dirname, './client/static'), {
 }));
 
 // session中间件
-app.use(require('./server/middlewares/session.js')(app));
+const session = require("koa-session2");
+const storeRedis = require('./server/middlewares/session.js');
+app.use(session({
+    store: new storeRedis()
+}));
 
 // 装载自定义路由 / 路由错误处理
 app.use(basicRouter.routes()).use(basicRouter.allowedMethods());
 
 
 // 启动服务，并输出日期
-app.listen(serverPort, serverHost, async () => {
+app.listen(serverPort, serverHost, () => {
     console.log(`web服务启动成功！地址：${serverHost}:${serverPort}`);
 });
-

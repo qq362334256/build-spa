@@ -14,7 +14,8 @@ module.exports = {
 
     // redis缓存数据库配置
     redis: {
-        host: '127.0.0.1',  // 访问地址
-        port: 6379,         // 端口号
+        host: '127.0.0.1',       // 访问地址
+        port: 6379,              // 端口号
+        retryStrategyTime: 2000, // 非主动断开redis连接的重连时间
     }
 };
