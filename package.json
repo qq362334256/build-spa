@@ -4,6 +4,7 @@
   "description": "这是SPA（单页应用）的构建工程",
   "main": "app.js",
   "dependencies": {
+    "css-loader": "^0.28.7",
     "ioredis": "^3.1.4",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
@@ -12,6 +13,7 @@
     "koa-router": "^7.2.1",
     "koa-session2": "^2.2.4",
     "koa-static": "^4.0.1",
+    "style-loader": "^0.18.2",
     "webpack": "^3.4.1"
   },
   "devDependencies": {},
