@@ -5,7 +5,7 @@ const path = require('path');
 const convert = require('koa-convert'); // 低版本中间件的过渡兼容插件
 const Koa = require('koa');
 const app = new Koa();
-const basicRouter = require('./server/routers/entry.config.js'); // 路由配置
+const basicRouter = require('./server/routers/router.config.js'); // 路由配置
 const {
     server: {
         host: serverHost,
@@ -40,11 +40,7 @@ app.use(require('koa-static')(path.join(__dirname, './client/static'), {
 }));
 
 // session中间件
-const session = require("koa-session2");
-const storeRedis = require('./server/middlewares/session.js');
-app.use(session({
-    store: new storeRedis()
-}));
+app.use(require('./server/middlewares/session.js'));
 
 // 装载自定义路由 / 路由错误处理
 app.use(basicRouter.routes()).use(basicRouter.allowedMethods());

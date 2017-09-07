@@ -1,7 +1,9 @@
+/**
+ * cookie中间件
+ */
 module.exports = () => async (
     ctx, next
 ) => {
-
     // 设置cookie
     ctx.cookies.set('session_id', '1111', {
         domain: '127.0.0.1', // 网站域名

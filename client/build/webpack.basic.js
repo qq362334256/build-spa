@@ -1,7 +1,16 @@
 /**
- * Created by yanmin.yu on 2017/8/23.
+ * 核心webpack配置
  */
-module.exports = {
+const path = require('path');
 
+
+module.exports = {
+    entry: path.join(__dirname, './../src', 'entry.js'), // 入口文件
+
+    // 输出配置
+    output: {
+        filename: 'bundle.js',
+        path: path.join(__dirname, './../src', 'entry.js'), // 输出目录
+    }
 };
 

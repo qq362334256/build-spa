@@ -45,7 +45,7 @@ const redis = new Redis({
 
 // redis一系列监听
 redis.on('connect', () => {
-    console.log('redis连接成功！');
+    console.log(`redis连接成功！地址：${host}:${port}`);
 });
 redis.on('ready', () => {
     console.log('redis准备就绪！');

@@ -3,6 +3,7 @@
  */
 module.exports = {
     projectId: 'MIAOYU', // 项目ID
+    sessionMaxAge: 7200000, // session过期时间
 
     // 应用服务配置
     server: {
