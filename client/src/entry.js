@@ -4,6 +4,17 @@
 import './index.css';
 import './test.less';
 import { logA } from './module.js';
+const getAsync = async () => {
+
+    const getFn =  await import('./async.js');
+}
+
+
+setTimeout(function() {
+    getAsync();
+}, 3000)
+
+
 
 console.log(33333);
 
