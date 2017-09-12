@@ -16,12 +16,15 @@ module.exports = {
             'eventsource-polyfill',
             'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
             path.join(__dirname, './../src', 'entry.js')
-        ]
+        ],
+        // vendor: [ // 插件模块
+        //     // 'jquery'
+        // ]
     },
 
     // 输出配置
     output: {
-        filename: '[name].[hash].bundle.js',                 // 打包的文件名
+        filename: '[name].[chunkhash].bundle.js',                 // 打包的文件名
         path: path.join(__dirname, './../static') // 输出目录
     },
 
@@ -90,13 +93,23 @@ module.exports = {
         }),
 
         // import导出时不加载无用代码
-        // new UglifyJSPlugin(),
+        // new UglifyJSPlugin({
+        // compress: process.env.NODE_ENV === 'production'
+        // }),
 
         // 指定环境
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production') // 生产环境production | development测试环境
              }
+        }),
+
+        // 让抽出模块的文件名可读
+        new webpack.HashedModuleIdsPlugin(),
+
+        // 抽取lib插件代码
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor' // 指定公共 bundle 的名称。
         }),
 
         // 抽取公共代码
@@ -111,7 +124,20 @@ module.exports = {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         // new webpack.NoErrorsPlugin()
+
+        // 可以让其他模块访问
+        // new webpack.ProvidePlugin({
+        //     $: 'jquery',
+        //     jQuery: 'jquery'
+        // }),
     ],
+
+    // 别名设置
+    // resolve: {
+    //     alias: {
+    //         jquery: "jquery/src/jquery"
+    //     }
+    // },
 
     devtool: 'inline-source-map', // 生成打包模块文件的map
 };
