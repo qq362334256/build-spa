@@ -2,6 +2,7 @@
  * 应用配置文件
  */
 module.exports = {
+    env: 'development', // 生产环境production | development测试环境
     projectId: 'MIAOYU', // 项目ID
     sessionMaxAge: 7200000, // session过期时间
 
@@ -18,5 +19,11 @@ module.exports = {
         host: '127.0.0.1',       // 访问地址
         port: 6379,              // 端口号
         retryStrategyTime: 2000, // 非主动断开redis连接的重连时间
+    },
+
+    // 客户端构建
+    clientBuild: {
+        noImportModule: ['react', 'react-dom'], // 打包需要忽略的模块
+        assetsUrl: 'http://127.0.0.1:3001/' // 打包资源的引入域
     }
 };

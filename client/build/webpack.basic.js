@@ -6,52 +6,44 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const {
+    clientBuild: {
+        assetsUrl,
+        noImportModule
+    }
+} = require('./../../webConfig');
 
 
 // 导出webpack基本配置
 module.exports = {
-    entry: { // 入口文件
-        app: [
-            'eventsource-polyfill',
-            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-            path.join(__dirname, './../src', 'entry.js')
-        ],
-        // vendor: [ // 插件模块
-        //     // 'jquery'
-        // ]
+    // 别名设置
+    // resolve: {
+    //     alias: {
+    //         jquery: 'jquery/src/jquery',
+    //         webConfig$: path.join(__dirname, './../../webConfig.js')
+    //     }
+    // },
+
+    context: path.join(__dirname, './client/build'), // 构建的上下文
+
+    // 入口文件
+    entry: {
+        vendor: noImportModule // 插件模块
     },
 
     // 输出配置
     output: {
-        filename: '[name].[chunkhash].bundle.js',                 // 打包的文件名
-        path: path.join(__dirname, './../static') // 输出目录
+        publicPath: assetsUrl,                     // 打包资源加载域
+        path: path.join(__dirname, './../static'), // 输出目录
+        crossOriginLoading: 'anonymous'            // 不带凭据启用跨域加载
     },
 
     // loader模块配置
     module: {
+        noParse: eval(`/${ noImportModule.join('|') }/`), // 忽略不应该loader的模块
         rules: [
-            // { // css文件加载
-            //     test: /\.css$/,
-            //     use: [
-            //         'style-loader', // style加载器
-            //         'css-loader'    // css加载器
-            //     ]
-            // },
-            { // css文件加载
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader", // style加载器
-                    use: "css-loader"    // css加载器
-                })
-            }, { // less文件加载
-                test: /\.less$/,
-                use: [
-                    'style-loader', // style加载器
-                    'css-loader',   // css加载器
-                    'less-loader'   // less加载器
-                ]
-            }, { // images图片加载
+            { // images图片加载
                 test: /\.(jpg|jpeg|gif|png|pneg|svg)$/,
                 use: [
                     'file-loader' // 文件加载器
@@ -131,13 +123,6 @@ module.exports = {
         //     jQuery: 'jquery'
         // }),
     ],
-
-    // 别名设置
-    // resolve: {
-    //     alias: {
-    //         jquery: "jquery/src/jquery"
-    //     }
-    // },
 
     devtool: 'inline-source-map', // 生成打包模块文件的map
 };

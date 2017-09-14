@@ -18,6 +18,13 @@ const {
 
 
 
+console.log('测试环境----------------')
+console.log(require('./client/build/webpack.dev.js').entry)
+console.log('生产环境----------------')
+console.log(require('./client/build/webpack.pro.js').entry)
+
+
+
 
 // webpack中间件
 const webpack = require('webpack');
@@ -96,4 +103,7 @@ app.use(basicRouter.routes()).use(basicRouter.allowedMethods());
 // 启动服务，并输出日期
 app.listen(serverPort, serverHost, () => {
     console.log(`web服务启动成功！地址：${serverHost}:${serverPort}`);
+
+
+
 });
