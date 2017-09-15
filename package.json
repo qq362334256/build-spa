@@ -23,6 +23,7 @@
     "koa-webpack-middleware": "^1.0.7",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+    "open-browser-webpack-plugin": "^0.0.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "style-loader": "^0.18.2",
@@ -35,7 +36,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server-dev": "supervisor app.js",
-    "client-dev": "webpack --w --config ./client/build/webpack.basic.js"
+    "client-dev": "webpack --w --config ./client/build/webpack.basic.js",
+    "client-pro": "webpack --config ./client/build/webpack.pro.js"
   },
   "repository": {
     "type": "git",

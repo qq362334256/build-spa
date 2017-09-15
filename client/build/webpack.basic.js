@@ -4,9 +4,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
 const {
     clientBuild: {
         assetsUrl,
@@ -41,7 +38,7 @@ module.exports = {
 
     // loader模块配置
     module: {
-        noParse: eval(`/${ noImportModule.join('|') }/`), // 忽略不应该loader的模块
+        // noParse: eval(`/${ noImportModule.join('|') }/`), // 忽略不应该loader的模块
         rules: [
             { // images图片加载
                 test: /\.(jpg|jpeg|gif|png|pneg|svg)$/,
@@ -74,56 +71,15 @@ module.exports = {
 
     // 插件集合
     plugins: [
-        // 清理静态文件目录
-        new CleanWebpackPlugin(['static'], {
-            root: path.join(__dirname, './../') // 配置清理根目录
-        }),
-
         // 动态生成模块插件
         new HtmlWebpackPlugin({
             template: path.join(__dirname, './../src', 'index.html') // 引入的初始模板
         }),
 
-        // import导出时不加载无用代码
-        // new UglifyJSPlugin({
-        // compress: process.env.NODE_ENV === 'production'
-        // }),
-
-        // 指定环境
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production') // 生产环境production | development测试环境
-             }
-        }),
-
-        // 让抽出模块的文件名可读
-        new webpack.HashedModuleIdsPlugin(),
-
         // 抽取lib插件代码
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor' // 指定公共 bundle 的名称。
-        }),
-
-        // 抽取公共代码
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'common' // 指定公共 bundle 的名称。
-        }),
-
-        // 单出抽出css文件
-        new ExtractTextPlugin('styles.css'),
-
-
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        // new webpack.NoErrorsPlugin()
-
-        // 可以让其他模块访问
-        // new webpack.ProvidePlugin({
-        //     $: 'jquery',
-        //     jQuery: 'jquery'
-        // }),
+            name: ['vendor', 'common'] // 指定公共 bundle 的名称。
+        })
     ],
-
-    devtool: 'inline-source-map', // 生成打包模块文件的map
 };
 

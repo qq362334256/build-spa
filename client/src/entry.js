@@ -3,11 +3,13 @@
  */
 import './index.css';
 import './test.less';
-import { logA } from './module.js';
+
+import  './module.js';
+
 const getAsync = async () => {
 
     const getFn =  await import('./async.js');
-}
+};
 
 
 setTimeout(function() {
@@ -16,10 +18,6 @@ setTimeout(function() {
 
 
 
-console.log(33333);
-
-
-console.log(333333)
 
 
 if (module.hot) {
