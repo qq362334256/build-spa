@@ -2,7 +2,7 @@
  * 应用配置文件
  */
 module.exports = {
-    env: 'development', // 生产环境production | development测试环境
+    env: 'production', // 生产环境production | development测试环境
     projectId: 'MIAOYU', // 项目ID
     sessionMaxAge: 7200000, // session过期时间
 
