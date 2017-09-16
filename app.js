@@ -44,6 +44,9 @@ app.use(require('koa-bodyparser')({
     textLimit: serverRequsetLimit  // 请求文本的最大体积
 }));
 
+// res响应体gzip压缩中间件
+app.use(require('koa-compress')());
+
 // 静态资源中间件
 app.use(require('koa-static')(path.join(__dirname, './client/static'), {
     maxage: serverFileCacheTime // 文件缓存时间
