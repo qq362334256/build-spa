@@ -5,15 +5,14 @@ const webpack = require('webpack');
 const webConfig = require('./../../client/build/webpack.dev.js');
 const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
 const compile = webpack(webConfig);
-const { env } = require('./../../webConfig.js');
 
 
-// 测试服务环境需要导出的中间件模块
-const devMiddlewares = [
+// 导出中间件
+module.exports = [
     devMiddleware(compile, {
         noInfo: true,    // 不显示其他不用信息
         quiet: false,    // 任何信息不会显示在控制台，默认为false
-        publicPath: '/', // 打包资源的访问路径
+        publicPath: '/',  // 打包资源的访问路径
 
         // 文件监听设置
         watchOptions: {
@@ -36,15 +35,3 @@ const devMiddlewares = [
     }),
     hotMiddleware(compile)
 ];
-
-// 开发环境需要导出的中间件模块
-const proMiddlewares = [() => async (ctx, next) => {
-    await next();
-}];
-
-// 需要导出的模块
-const exportsModule = env === 'development' ? devMiddlewares : proMiddlewares;
-
-
-// 导出中间件
-module.exports = exportsModule;

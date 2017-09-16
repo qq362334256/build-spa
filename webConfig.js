@@ -2,7 +2,7 @@
  * 应用配置文件
  */
 module.exports = {
-    env: 'production', // 生产环境production | development测试环境
+    env: 'development', // 生产环境production | development测试环境
     projectId: 'MIAOYU', // 项目ID
     sessionMaxAge: 7200000, // session过期时间
 
@@ -23,7 +23,8 @@ module.exports = {
 
     // 客户端构建
     clientBuild: {
-        noImportModule: ['react', 'react-dom'], // 打包需要忽略的模块
+        autoOpenBrowser: true,             // 是否自动打开游览器
+        libList: ['react', 'react-dom'],    // 独立抽出打包的lib列表
         assetsUrl: 'http://127.0.0.1:3001/' // 打包资源的引入域
     }
 };

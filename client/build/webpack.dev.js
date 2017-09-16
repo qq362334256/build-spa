@@ -9,8 +9,18 @@ const {
     server: {
         host: serverHost,
         port: serverPort
+    },
+    clientBuild: {
+        autoOpenBrowser
     }
 } = require('./../../webConfig');
+
+
+// 判断是否需要加入的插件
+const isPlugings = autoOpenBrowser ? [
+    // 执行完毕后自动打开游览器
+    new OpenBrowserPlugin({ url: `http://${serverHost}:${serverPort}` })
+] : [];
 
 
 // 导出开发环境配置
@@ -64,7 +74,7 @@ module.exports = merge(require('./webpack.basic.js'), {
         // 启用hot加载
         new webpack.HotModuleReplacementPlugin(),
 
-        // 执行完毕后自动打开游览器
-        new OpenBrowserPlugin({ url: `http://${serverHost}:${serverPort}` })
+        // 其他插件
+        ...isPlugings
     ]
 });

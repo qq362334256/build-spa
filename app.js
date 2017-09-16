@@ -7,6 +7,7 @@ const Koa = require('koa');
 const app = new Koa();
 const basicRouter = require('./server/routers/router.config.js'); // 路由配置
 const {
+    env,
     server: {
         host: serverHost,
         port: serverPort,
@@ -20,9 +21,13 @@ const {
 const redis = require('./server/services/redis.js');
 
 
-// webpack中间件
-app.use(...require('./server/middlewares/devServer.js'));
+// 当前环境为测试环境执行webpack打包任务
+if (env === 'development') {
+    const [devMiddleware, hotMiddleware] = require('./server/middlewares/devServer.js');
 
+    app.use(devMiddleware);
+    app.use(hotMiddleware);
+};
 
 
 // request接收前中间件

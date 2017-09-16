@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
     clientBuild: {
         assetsUrl,
-        noImportModule
+        libList
     }
 } = require('./../../webConfig');
 
@@ -26,7 +26,7 @@ module.exports = {
 
     // 入口文件
     entry: {
-        vendor: noImportModule // 插件模块
+        vendor: libList // 插件模块
     },
 
     // 输出配置

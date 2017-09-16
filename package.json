@@ -36,7 +36,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server-dev": "supervisor app.js",
-    "client-dev": "webpack --w --config ./client/build/webpack.basic.js",
+    "client-dev": "webpack --w --config ./client/build/webpack.dev.js",
     "client-pro": "webpack --config ./client/build/webpack.pro.js"
   },
   "repository": {
