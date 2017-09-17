@@ -5,6 +5,7 @@ import './index.css';
 import './test.less';
 
 import  './module.js';
+import './app.jsx';
 
 const getAsync = async () => {
 
@@ -17,6 +18,8 @@ const getAsync = async () => {
 setTimeout(function() {
     getAsync();
 }, 3000)
+
+
 
 
 
