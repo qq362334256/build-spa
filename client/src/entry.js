@@ -8,7 +8,9 @@ import  './module.js';
 
 const getAsync = async () => {
 
-    const getFn =  await import('./async.js');
+    const getFn =  await require.ensure('./async.js', () => {
+        console.log('异步脚本执行了121！')
+    }, 'async');
 };
 
 

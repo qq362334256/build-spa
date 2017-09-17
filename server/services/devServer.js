@@ -2,14 +2,14 @@
  * 测试服务中间件
  */
 const webpack = require('webpack');
-const webConfig = require('./../../client/build/webpack.dev.js');
+const webConfig = require('../../client/build/webpack.dev.js');
 const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
 const compile = webpack(webConfig);
 
 
 // 导出中间件
-module.exports = [
-    devMiddleware(compile, {
+module.exports = app => {
+    app.use(devMiddleware(compile, {
         noInfo: true,    // 不显示其他不用信息
         quiet: false,    // 任何信息不会显示在控制台，默认为false
         publicPath: '/',  // 打包资源的访问路径
@@ -32,6 +32,7 @@ module.exports = [
         },
 
         open: true
-    }),
-    hotMiddleware(compile)
-];
+    }));
+
+    app.use(hotMiddleware(compile));
+};

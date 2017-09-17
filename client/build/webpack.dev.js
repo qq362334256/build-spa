@@ -4,6 +4,7 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const {
     server: {
@@ -38,7 +39,7 @@ module.exports = merge(require('./webpack.basic.js'), {
 
     // 输出配置
     output: {
-        filename: 'js/[name].js',           // 打包的文件名
+        filename: 'js/[name].js',           // 异步模块打包的文件名
         strictModuleExceptionHandling: true // 模块全部异常时全部抛出
     },
 
@@ -49,16 +50,57 @@ module.exports = merge(require('./webpack.basic.js'), {
                 test: /\.css$/,
                 use: [
                     'style-loader', // style加载器
-                    'css-loader'    // css加载器
+                    {
+                        loader: 'css-loader', // css加载器
+                        options: {
+                            importLoaders: 1
+                        }
+                    }, {
+                        loader: 'postcss-loader', // 解决游览器私有前缀问题
+                        options: {
+                            plugins: [
+                                autoprefixer({ browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie >= 8'] })
+                            ]
+                        }
+                    }
                 ]
             }, { // less文件加载
                 test: /\.less$/,
                 use: [
                     'style-loader', // style加载器
-                    'css-loader',   // css加载器
+                    {
+                        loader: 'css-loader', // css加载器
+                        options: {
+                            importLoaders: 2
+                        }
+                    }, {
+                        loader: 'postcss-loader', // 解决游览器私有前缀问题
+                        options: {
+                            plugins: [
+                                autoprefixer({ browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie >= 8'] })
+                            ]
+                        }
+                    },
                     'less-loader'   // less加载器
                 ]
-            },
+            }, { // images图片加载
+                test: /\.(jpg|jpeg|gif|png|pneg|svg)$/,
+                use: [{
+                    loader: 'url-loader', // 图片加载器
+                    options: {
+                        limit: 1024,
+                        name: 'images/[name].[ext]'
+                    }
+                }]
+            }, { // 字体加载
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [{
+                    loader: 'file-loader', // 文件加载器
+                    options: {
+                        name: 'fonts/[name].[ext]'
+                    }
+                }]
+            }
         ]
     },
 

@@ -40,16 +40,16 @@ module.exports = {
     module: {
         // noParse: eval(`/${ noImportModule.join('|') }/`), // 忽略不应该loader的模块
         rules: [
-            { // images图片加载
-                test: /\.(jpg|jpeg|gif|png|pneg|svg)$/,
-                use: [
-                    'file-loader' // 文件加载器
-                ]
-            }, { // 字体加载
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: [
-                    'file-loader' // 文件加载器
-                ]
+            {
+                test: /\.jsx?$/, // js加载器
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader?cacheDirectory=true',
+                    options: {
+                        presets: ['env'],
+                        plugins: ['transform-runtime']
+                    }
+                }
             }, { // csv/tsv加载
                 test: /\.(csv|tsv)$/,
                 use: [
@@ -64,6 +64,11 @@ module.exports = {
                 test: /\.html$/,
                 use: [
                     'html-loader' // html加载器
+                ]
+            }, { // txt加载
+                test: /\.txt$/,
+                use: [
+                    'raw-loader' // xtx加载器
                 ]
             }
         ]

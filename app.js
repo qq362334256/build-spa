@@ -22,12 +22,7 @@ const redis = require('./server/services/redis.js');
 
 
 // 当前环境为测试环境执行webpack打包任务
-if (env === 'development') {
-    const [devMiddleware, hotMiddleware] = require('./server/middlewares/devServer.js');
-
-    app.use(devMiddleware);
-    app.use(hotMiddleware);
-};
+if (env === 'development') require('./server/services/devServer.js')(app);
 
 
 // request接收前中间件
