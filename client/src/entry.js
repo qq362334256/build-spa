@@ -3,6 +3,16 @@
  */
 
 
+
+
+
+
+
+// 测试环境才开启hot热替换
+if (process.env.NODE_ENV === 'development' && module.hot) module.hot.accept();
+
+
+// 异步加载示例
 // const getAsync = async () => {
 //
 //     const getFn =  await require.ensure('./async.js', () => {
@@ -14,13 +24,3 @@
 // setTimeout(function() {
 //     getAsync();
 // }, 3000)
-
-
-
-
-
-
-
-if (module.hot) {
-    module.hot.accept();
-};
